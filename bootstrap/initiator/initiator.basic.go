@@ -2,6 +2,7 @@ package initiator
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"github.com/ocistok-it/notification/bootstrap/deps"
 	"github.com/ocistok-it/notification/internal/infrastructure/pkg/event"
@@ -29,10 +30,15 @@ func (i *Initiator) newMailer() gomail.SendCloser {
 	cfg := i.config.Service.Mail
 
 	dialer := gomail.NewDialer(cfg.Host, cfg.Port, cfg.Identity, cfg.Password)
+
+	dialer.TLSConfig = &tls.Config{
+		InsecureSkipVerify: true,
+	}
+
 	sender, err := dialer.Dial()
 
 	if err != nil {
-		log.Fatal().Err(err).Msg("error connect to server")
+		log.Fatal().Err(err).Msg("error connect to server mail")
 	}
 
 	return sender
