@@ -6,6 +6,10 @@ import (
 )
 
 type (
+	DefaultMailUserRepository interface {
+		GetByUser(ctx context.Context, user string) (*entities.DefaultMailUser, error)
+	}
+
 	DingRobotRepository interface {
 		GetByRobotID(ctx context.Context, id string) (*entities.DingRobot, error)
 	}

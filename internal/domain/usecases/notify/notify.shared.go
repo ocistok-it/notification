@@ -9,10 +9,10 @@ import (
 	"github.com/ocistok-it/notification/internal/infrastructure/service/mail"
 )
 
-func (m *module) initDingtalk(ctx context.Context, metadata []byte) (interface{}, error) {
+func (m *module) initDingtalk(ctx context.Context, metadata string) (interface{}, error) {
 	var request dingtalk.Message
 
-	if err := json.Unmarshal(metadata, &request); err != nil {
+	if err := json.Unmarshal([]byte(metadata), &request); err != nil {
 		return nil, custerr.New("json_encode", err.Error())
 	}
 
@@ -27,11 +27,21 @@ func (m *module) initDingtalk(ctx context.Context, metadata []byte) (interface{}
 	return &request, nil
 }
 
-func (m *module) initMail(ctx context.Context, metadata []byte) (interface{}, error) {
+func (m *module) initMail(ctx context.Context, metadata string) (interface{}, error) {
 	var request mail.Message
 
-	if err := json.Unmarshal(metadata, &request); err != nil {
+	if err := json.Unmarshal([]byte(metadata), &request); err != nil {
 		return nil, custerr.New("json_encode", err.Error())
+	}
+
+	if request.DefaultUser != "" {
+		defaultUser, err := m.defMailRepo.GetByUser(ctx, request.DefaultUser)
+		if err != nil {
+			return nil, err
+		}
+
+		request.To = append(request.To, defaultUser.To...)
+		request.Cc = append(request.Cc, defaultUser.Cc...)
 	}
 
 	return &request, nil

@@ -1,4 +1,4 @@
-package dingrobot
+package mailuser
 
 import (
 	"github.com/ocistok-it/notification/internal/domain/repositories"
@@ -15,7 +15,7 @@ type (
 	}
 )
 
-func New(o Opts) repositories.DingRobotRepository {
+func New(o Opts) repositories.DefaultMailUserRepository {
 	return &module{
 		db: o.DB,
 	}

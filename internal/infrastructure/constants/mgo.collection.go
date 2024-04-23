@@ -1,7 +1,6 @@
 package constants
 
-type MgoCollection string
-
 const (
-	CollDingRobot = "dingtalk_robot"
+	CollDingRobot       = "dingtalk_robot"
+	CollDefaultMailUser = "default_mail_user"
 )

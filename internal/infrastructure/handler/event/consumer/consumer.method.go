@@ -10,7 +10,7 @@ import (
 func (c *consumer) notify(ctx context.Context, body []byte) error {
 	var request dto.PushNotification
 	if err := json.Unmarshal(body, &request); err != nil {
-		log.Error().Err(err).Msg("error notify")
+		log.Error().Err(err).Msg("error marshal push notification")
 		return err
 	}
 

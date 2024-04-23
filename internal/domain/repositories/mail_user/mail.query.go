@@ -1,4 +1,4 @@
-package dingrobot
+package mailuser
 
 import (
 	"context"
@@ -8,17 +8,17 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func (m *module) GetByRobotID(ctx context.Context, id string) (*entities.DingRobot, error) {
-	var result entities.DingRobot
+func (m *module) GetByUser(ctx context.Context, user string) (*entities.DefaultMailUser, error) {
+	var result entities.DefaultMailUser
 
-	filter := bson.M{"robot_id": id}
+	filter := bson.M{"user": user}
 
-	err := m.db.Collection(constants.CollDingRobot).
+	err := m.db.Collection(constants.CollDefaultMailUser).
 		FindOne(ctx, filter).
 		Decode(&result)
 
 	if err != nil {
-		return nil, custerr.New("query_ding", err.Error())
+		return nil, custerr.New("query_default_mail_user", err.Error())
 	}
 
 	return &result, nil

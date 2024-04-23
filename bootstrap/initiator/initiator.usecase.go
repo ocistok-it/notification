@@ -32,7 +32,8 @@ func (i *Initiator) newNotifyUC() usecases.NotifyUsecase {
 	})
 
 	opts := notify.Opts{
-		DingRepo: i.repositories.DingGroup,
+		DingRepo:    i.repositories.DingRobot,
+		DefMailRepo: i.repositories.DefMailUser,
 	}
 
 	return notify.RegisterService(opts, dt, email)

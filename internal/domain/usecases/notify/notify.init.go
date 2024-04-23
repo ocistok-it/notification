@@ -12,24 +12,28 @@ type (
 	module struct {
 		notifier  notifierMap
 		initiator initiatorMap
-		dingRepo  repositories.DingRobotRepository
+
+		dingRepo    repositories.DingRobotRepository
+		defMailRepo repositories.DefaultMailUserRepository
 	}
 
 	notifierMap  map[enums.ServiceName]service.Service
 	initiatorMap map[enums.ServiceName]initFn
 
-	initFn func(ctx context.Context, metadata []byte) (interface{}, error)
+	initFn func(ctx context.Context, metadata string) (interface{}, error)
 
 	Opts struct {
-		DingRepo repositories.DingRobotRepository
+		DingRepo    repositories.DingRobotRepository
+		DefMailRepo repositories.DefaultMailUserRepository
 	}
 )
 
 func RegisterService(opts Opts, services ...service.Service) usecases.NotifyUsecase {
 	m := module{
-		notifier:  make(notifierMap),
-		dingRepo:  opts.DingRepo,
-		initiator: make(initiatorMap),
+		dingRepo:    opts.DingRepo,
+		defMailRepo: opts.DefMailRepo,
+		notifier:    make(notifierMap),
+		initiator:   make(initiatorMap),
 	}
 
 	for _, v := range services {
