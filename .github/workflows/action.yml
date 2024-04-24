@@ -28,9 +28,9 @@ jobs:
           push: true
           tags: ocistok/golang-notification:development
           file: ./Dockerfile.development
-    #   - name: Deploy to ACK Dev
-    #     run:  |
-    #       curl https://cs.console.aliyun.com/hook/trigger?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVzdGVySWQiOiJjMTc1MGY4MDA0ZmI5NGYyYzk2NGY3MTg0OGY4OWU4YzQiLCJpZCI6IjIzMDcwMiJ9.neiwFz7-2CfJzTlId7XPDomDagKIPFwKQOn3uJdsb9nOXcL8corMzYalTF0LMtdRb3JFPaTjhPqGzKJRjTwJHT0Ju5WGcAzjSX-Oj3Qclyf1BygKxUR-Cxe4T7PUyE5YlrxrP9ON-Z78AsWSMFVtCI9lwcCNrixENdGkn8P74tw
+      - name: Deploy to ACK Ocistok notification DEVELOPMENT
+        run:  |
+          curl https://cs.console.aliyun.com/hook/trigger?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVzdGVySWQiOiJjMTc1MGY4MDA0ZmI5NGYyYzk2NGY3MTg0OGY4OWU4YzQiLCJpZCI6IjIzOTMzMiJ9.mV16Gw1Wzr8PZRicENaA-UdfNo0qOHJIy1oqqVWJ6x8Knpghg51evYyX8ZlHVxW7knE_Y14SthSsUx_oeU1PmijRgebBA9ovQmpWXx1_KFPexq4aW956JnsqO3jwqZuuxqlFioc_4YtMVnq0j9f5JnpglW-FZxwg4prVgSGPtA0
       - name: Notify dingtalk Deploy
         uses: leafney/dingtalk-action@v1
         if: always()
