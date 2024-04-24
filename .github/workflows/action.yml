@@ -1,0 +1,95 @@
+name: CI/CD Notification
+
+on:
+  push:
+    branches:
+      - development
+      - main
+      - nearlive
+
+  Deploy-to-Golang--NotificationX-Development:
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'development'
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ocistok
+          password: 5be4703b-5540-43f8-9862-ae677fee445b
+      - name: Build and push Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          no-cache: true
+          push: true
+          tags: ocistok/golang-notification:development
+          file: ./Dockerfile.development
+    #   - name: Deploy to ACK Dev
+    #     run:  |
+    #       curl https://cs.console.aliyun.com/hook/trigger?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVzdGVySWQiOiJjMTc1MGY4MDA0ZmI5NGYyYzk2NGY3MTg0OGY4OWU4YzQiLCJpZCI6IjIzMDcwMiJ9.neiwFz7-2CfJzTlId7XPDomDagKIPFwKQOn3uJdsb9nOXcL8corMzYalTF0LMtdRb3JFPaTjhPqGzKJRjTwJHT0Ju5WGcAzjSX-Oj3Qclyf1BygKxUR-Cxe4T7PUyE5YlrxrP9ON-Z78AsWSMFVtCI9lwcCNrixENdGkn8P74tw
+      - name: Notify dingtalk Deploy
+        uses: leafney/dingtalk-action@v1
+        if: always()
+        env:
+          DINGTALK_ACCESS_TOKEN: 012575f2b79b47fe03844bf3a8293d84b01f5d90e4f918ba63583a23675b3bbf
+        with:
+          msgtype: text
+          # notify_when: 'success'
+          status: ${{ job.status }}
+          text: |
+            📢 Notification Ocistok Service Development 📢
+            Job Status : ${{ job.status }} 
+            ${{ github.actor }} created commit: ${{ github.ref_name }}
+            Repository: ${{ github.repository }}
+            Commit message: 
+            ${{ github.event.head_commit.message }}
+
+
+          at_mobiles: '+62-8886198345'
+          title: Notification Ocistok Service Notification
+
+  Deploy-to-Golang-NotificationX-Nearlive:
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'nearlive'
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ocistok
+          password: 5be4703b-5540-43f8-9862-ae677fee445b
+      - name: Build and push Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          no-cache: true
+          push: true
+          tags: ocistok/golang-notification:production,ocistok/golang-notification:${{ github.run_number }}
+    #   - name: Deploy to ACK Dev
+    #     run:  |
+    #       curl https://cs.console.aliyun.com/hook/trigger?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVzdGVySWQiOiJjMTc1MGY4MDA0ZmI5NGYyYzk2NGY3MTg0OGY4OWU4YzQiLCJpZCI6IjIzMDcwMiJ9.neiwFz7-2CfJzTlId7XPDomDagKIPFwKQOn3uJdsb9nOXcL8corMzYalTF0LMtdRb3JFPaTjhPqGzKJRjTwJHT0Ju5WGcAzjSX-Oj3Qclyf1BygKxUR-Cxe4T7PUyE5YlrxrP9ON-Z78AsWSMFVtCI9lwcCNrixENdGkn8P74tw
+      - name: Notify dingtalk Deploy
+        uses: leafney/dingtalk-action@v1
+        if: always()
+        env:
+          DINGTALK_ACCESS_TOKEN: 012575f2b79b47fe03844bf3a8293d84b01f5d90e4f918ba63583a23675b3bbf
+        with:
+          msgtype: text
+          # notify_when: 'success'
+          status: ${{ job.status }}
+          text: |
+            🔫 Notification Ocistok Service Nearlive 🔫
+            Job Status : ${{ job.status }} 
+            ${{ github.actor }} created commit: ${{ github.ref_name }}
+            Repository: ${{ github.repository }}
+            Commit message: 
+            ${{ github.event.head_commit.message }}
+
+
+          at_mobiles: '+62-8886198345'
+          title: Notification Ocistok Service Notification
