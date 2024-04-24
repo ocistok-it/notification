@@ -7,7 +7,7 @@ on:
       - main
       - nearlive
 
-  Deploy-to-Golang--NotificationX-Development:
+  Build-Golang-NotificationX-Development:
     runs-on: ubuntu-latest
     if: github.ref_name == 'development'
     steps:
