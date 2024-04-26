@@ -1,7 +1,6 @@
 package initiator
 
 import (
-	"fmt"
 	"github.com/ocistok-it/notification/bootstrap/deps"
 	"github.com/ocistok-it/notification/internal/domain/usecases"
 	"github.com/ocistok-it/notification/internal/domain/usecases/notify"
@@ -27,8 +26,9 @@ func (i *Initiator) newNotifyUC() usecases.NotifyUsecase {
 	})
 
 	email := mail.New(&mail.Opts{
-		SenderName: fmt.Sprintf("%s <%s>", cfg.Mail.FromName, cfg.Mail.From),
-		Client:     i.basic.Mailer,
+		From:     cfg.Mail.From,
+		FromName: cfg.Mail.FromName,
+		Client:   i.basic.Mailer,
 	})
 
 	opts := notify.Opts{
