@@ -29,12 +29,14 @@ func (s *Service) Send(ctx context.Context, message interface{}) error {
 		return custerr.New("err_set_recipients", err.Error())
 	}
 
-	return s.client.Send(from, to, msg)
+	err = s.client.Send(from, to, msg)
+
+	return err
 }
 
 func (s *Service) messageBuilder(msg Message) *gomail.Message {
 	message := gomail.NewMessage()
-	message.SetAddressHeader("From", "info.rizalfadlila@gmail.com", "Rizal Fadlila")
+	message.SetAddressHeader("From", s.from, s.fromName)
 	message.SetHeader("To", msg.To...)
 	message.SetHeader("Cc", msg.Cc...)
 	message.SetHeader("Subject", msg.Subject)

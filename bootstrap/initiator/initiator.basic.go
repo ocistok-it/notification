@@ -33,6 +33,7 @@ func (i *Initiator) newMailer() gomail.SendCloser {
 
 	dialer.TLSConfig = &tls.Config{
 		InsecureSkipVerify: true,
+		ServerName:         "mail.ocistok.co.id",
 	}
 
 	sender, err := dialer.Dial()
@@ -53,8 +54,7 @@ func (i *Initiator) newConsumer() event.Consumer {
 	}
 
 	return rabbit.NewRabbitMQ(rabbit.Opts{
-		Conn:             conn,
-		MaxRetryAttempts: cfg.MaxRetryAttempts,
+		Conn: conn,
 	})
 }
 

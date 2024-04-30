@@ -26,7 +26,7 @@ RUN ln -s /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 
 
 RUN cp /build/main .
-COPY .env /dist
+COPY .env.prod /dist
 
 EXPOSE 8787
 

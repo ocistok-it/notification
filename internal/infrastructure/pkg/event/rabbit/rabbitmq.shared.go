@@ -29,7 +29,7 @@ func (m *module) processMessage(delivery <-chan amqp.Delivery, handler event.Han
 
 func (m *module) doProcessing(body []byte, handler event.Handler) error {
 	opts := backoff.NewExponentialBackOff(
-		backoff.WithMaxElapsedTime(3*time.Minute),
+		backoff.WithMaxElapsedTime(2*time.Second),
 		backoff.WithMaxInterval(10*time.Second),
 	)
 
