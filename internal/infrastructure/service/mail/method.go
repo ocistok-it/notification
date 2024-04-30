@@ -29,7 +29,9 @@ func (s *Service) Send(ctx context.Context, message interface{}) error {
 		return custerr.New("err_set_recipients", err.Error())
 	}
 
-	return s.client.Send(from, to, msg)
+	err = s.client.Send(from, to, msg)
+
+	return err
 }
 
 func (s *Service) messageBuilder(msg Message) *gomail.Message {
