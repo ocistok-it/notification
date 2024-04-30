@@ -9,5 +9,5 @@ import (
 type Basic struct {
 	MgoClient *mongo.Client
 	Consumer  event.Consumer
-	Mailer    gomail.SendCloser
+	Mailer    *gomail.Dialer
 }

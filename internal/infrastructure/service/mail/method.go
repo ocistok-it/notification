@@ -19,19 +19,11 @@ func (s *Service) Send(ctx context.Context, message interface{}) error {
 
 	msg := s.messageBuilder(*payload)
 
-	from, err := s.getFrom(msg)
-	if err != nil {
-		return err
+	if err := s.client.DialAndSend(msg); err != nil {
+		return custerr.New("error_send_mail", err.Error())
 	}
 
-	to, err := s.getRecipients(msg)
-	if err != nil {
-		return custerr.New("err_set_recipients", err.Error())
-	}
-
-	err = s.client.Send(from, to, msg)
-
-	return err
+	return nil
 }
 
 func (s *Service) messageBuilder(msg Message) *gomail.Message {

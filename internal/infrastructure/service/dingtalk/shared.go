@@ -21,7 +21,7 @@ func (s *Service) robotSend(accessToken string, payload interface{}) error {
 
 	resp, err := s.apicall.Post(uri, payload, http.Header{})
 	if err != nil {
-		return err
+		return custerr.New("error_invoke_api", err.Error())
 	}
 
 	if err = json.Unmarshal(resp, &response); err != nil {
