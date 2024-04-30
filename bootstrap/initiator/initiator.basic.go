@@ -33,7 +33,7 @@ func (i *Initiator) newMailer() gomail.SendCloser {
 
 	dialer.TLSConfig = &tls.Config{
 		InsecureSkipVerify: true,
-		ServerName:         "mail.ocistok.co.id",
+		ServerName:         cfg.Host,
 	}
 
 	sender, err := dialer.Dial()
