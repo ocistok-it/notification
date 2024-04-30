@@ -12,13 +12,13 @@ type (
 	Service struct {
 		fromName string
 		from     string
-		client   gomail.SendCloser
+		client   *gomail.Dialer
 	}
 
 	Opts struct {
 		FromName string
 		From     string
-		Client   gomail.SendCloser
+		Client   *gomail.Dialer
 	}
 )
 

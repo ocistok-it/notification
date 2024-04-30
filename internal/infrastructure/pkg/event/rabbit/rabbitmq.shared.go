@@ -67,8 +67,15 @@ func (m *module) consume(queue string) <-chan amqp.Delivery {
 }
 
 func (m *module) logErrConsume(err error, d amqp.Delivery, message string) {
+	if v, ok := (err).(*custerr.CustErr); ok {
+		log.Err(err).
+			Str("code", v.Code).
+			Str("body", string(d.Body)).
+			Msg(message)
+
+		return
+	}
 	log.Err(err).
-		Str("id", d.MessageId).
 		Str("body", string(d.Body)).
 		Msg(message)
 }
