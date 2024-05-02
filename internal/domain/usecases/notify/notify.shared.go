@@ -24,6 +24,10 @@ func (m *module) initDingtalk(ctx context.Context, metadata string) (interface{}
 	request.AccessToken = dingGroup.AccessToken
 	request.Content = fmt.Sprintf("%s - %s", dingGroup.Secret, request.Content)
 
+	if len(dingGroup.DefaultMobileAt) > 0 {
+		request.Mobile = append(request.Mobile, dingGroup.DefaultMobileAt...)
+	}
+
 	return &request, nil
 }
 
