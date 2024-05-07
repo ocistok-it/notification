@@ -94,3 +94,31 @@ jobs:
 
           at_mobiles: '+62-8886198345'
           title: Notification Ocistok Service Notification
+
+  Deploy-to-Golang-Web-Service:
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'main'
+    steps:
+      # - name: Deploy to Kubernetes ack aliyun ocistok-service1
+      #   run: |
+      #     curl https://cs.console.aliyun.com/hook/trigger\?token\=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVzdGVySWQiOiJjMTc1MGY4MDA0ZmI5NGYyYzk2NGY3MTg0OGY4OWU4YzQiLCJpZCI6IjIyNjI2NyJ9.Mt-w_D1u7oQnjcDNppVw7JYZZHGWRJgfKQKuBThki5x2mabucsiOEWRsY1niefpywYMfZ3SV09dNSy09T2e5UIk-GiX_t6RldEkuu0rhJ6OtBpqraRWtA4VwekeDumJ-hdIR1QaCR8Lu7rKRJ3Tabja-YbA1Dwib7oUExtxbADM           
+      - name: Notify dingtalk Deploy
+        uses: leafney/dingtalk-action@v1
+        if: always()
+        env:
+          DINGTALK_ACCESS_TOKEN: ${{ secrets.WEBHOOK_DINGTALK}}
+        with:
+          msgtype: text
+          # notify_when: 'success'
+          status: ${{ job.status }}
+          text: |
+            🚀 Notification Ocistok Production Deploy to cluster 🚀 
+            Job Status : ${{ job.status }} 
+            created commit: ${{ github.ref_name }}
+            Repository: ${{ github.repository }}
+            Commit message: 
+            ${{ github.event.head_commit.message }}
+
+
+          at_mobiles: '+62-8886198345'
+          title: Golang Ocistok Service Notification
