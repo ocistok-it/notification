@@ -35,7 +35,7 @@ jobs:
         uses: leafney/dingtalk-action@v1
         if: always()
         env:
-          DINGTALK_ACCESS_TOKEN: 012575f2b79b47fe03844bf3a8293d84b01f5d90e4f918ba63583a23675b3bbf
+          DINGTALK_ACCESS_TOKEN: ${{ secrets.WEBHOOK_DINGTALK}}
         with:
           msgtype: text
           # notify_when: 'success'
@@ -49,7 +49,7 @@ jobs:
             ${{ github.event.head_commit.message }}
 
 
-          at_mobiles: '+62-8886198345'
+          at_mobiles: '+62-8886198345,+62-8886198345'
           title: Notification Ocistok Service Notification
 
   Build-Golang-NotificationX-Nearlive:
@@ -78,7 +78,7 @@ jobs:
         uses: leafney/dingtalk-action@v1
         if: always()
         env:
-          DINGTALK_ACCESS_TOKEN: 012575f2b79b47fe03844bf3a8293d84b01f5d90e4f918ba63583a23675b3bbf
+          DINGTALK_ACCESS_TOKEN: ${{ secrets.WEBHOOK_DINGTALK}}
         with:
           msgtype: text
           # notify_when: 'success'
@@ -92,7 +92,7 @@ jobs:
             ${{ github.event.head_commit.message }}
 
 
-          at_mobiles: '+62-8886198345'
+          at_mobiles: '+62-8886198345,+62-8886198345'
           title: Notification Ocistok Service Notification
 
   Deploy-to-notification-Production:
@@ -120,5 +120,5 @@ jobs:
             ${{ github.event.head_commit.message }}
 
 
-          at_mobiles: '+62-8886198345'
+          at_mobiles: '+62-8886198345,+62-8886198345'
           title: Golang Ocistok Service Notification
