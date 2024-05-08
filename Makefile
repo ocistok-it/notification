@@ -10,3 +10,9 @@ consumer:
 
 consumer-dev:
 	go run main.go consumer -e=dev
+
+consumer-prd:
+	go run main.go consumer -e=prod
+
+consumer-sandbox:
+	go run main.go consumer -e=sandbox
