@@ -10,19 +10,22 @@ const (
 
 type (
 	Service struct {
-		senderName string
-		client     gomail.SendCloser
+		fromName string
+		from     string
+		client   *gomail.Dialer
 	}
 
 	Opts struct {
-		SenderName string
-		Client     gomail.SendCloser
+		FromName string
+		From     string
+		Client   *gomail.Dialer
 	}
 )
 
 func New(o *Opts) *Service {
 	return &Service{
-		senderName: o.SenderName,
-		client:     o.Client,
+		fromName: o.FromName,
+		from:     o.From,
+		client:   o.Client,
 	}
 }

@@ -2,6 +2,7 @@ package initiator
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"github.com/ocistok-it/notification/bootstrap/deps"
 	"github.com/ocistok-it/notification/internal/infrastructure/pkg/event"
@@ -25,17 +26,17 @@ func (i *Initiator) InitBasic() *Initiator {
 	return i
 }
 
-func (i *Initiator) newMailer() gomail.SendCloser {
+func (i *Initiator) newMailer() *gomail.Dialer {
 	cfg := i.config.Service.Mail
 
 	dialer := gomail.NewDialer(cfg.Host, cfg.Port, cfg.Identity, cfg.Password)
-	sender, err := dialer.Dial()
 
-	if err != nil {
-		log.Fatal().Err(err).Msg("error connect to server")
+	dialer.TLSConfig = &tls.Config{
+		InsecureSkipVerify: true,
+		ServerName:         cfg.Host,
 	}
 
-	return sender
+	return dialer
 }
 
 func (i *Initiator) newConsumer() event.Consumer {
@@ -47,8 +48,7 @@ func (i *Initiator) newConsumer() event.Consumer {
 	}
 
 	return rabbit.NewRabbitMQ(rabbit.Opts{
-		Conn:             conn,
-		MaxRetryAttempts: cfg.MaxRetryAttempts,
+		Conn: conn,
 	})
 }
 

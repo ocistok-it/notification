@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/caarlos0/env/v6 v6.10.1
+	github.com/cenkalti/backoff/v4 v4.3.0
 	github.com/gojek/heimdall/v7 v7.0.2
 	github.com/joho/godotenv v1.5.1
 	github.com/rabbitmq/amqp091-go v1.9.0

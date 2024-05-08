@@ -35,7 +35,7 @@ func rootPreRun(cmd *cobra.Command, args []string) {
 }
 
 func initLog() {
-	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stdout})
 }
 
 func run(cmd *cobra.Command, args []string) error {

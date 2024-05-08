@@ -1,11 +1,13 @@
 package rabbit
 
 import (
+	"github.com/cenkalti/backoff/v4"
 	"github.com/ocistok-it/notification/internal/infrastructure/custerr"
 	"github.com/ocistok-it/notification/internal/infrastructure/pkg/event"
 	"github.com/ocistok-it/notification/internal/infrastructure/util"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/rs/zerolog/log"
+	"time"
 )
 
 func (m *module) processMessage(delivery <-chan amqp.Delivery, handler event.Handler) {
@@ -26,16 +28,14 @@ func (m *module) processMessage(delivery <-chan amqp.Delivery, handler event.Han
 }
 
 func (m *module) doProcessing(body []byte, handler event.Handler) error {
-	//opts := backoff.NewExponentialBackOff(
-	//	backoff.WithMaxElapsedTime(3*time.Minute),
-	//	backoff.WithMaxInterval(10*time.Second),
-	//)
-	//
-	//return backoff.Retry(func() error {
-	//	return handler(util.ContextBackground(), body)
-	//}, opts)
+	opts := backoff.NewExponentialBackOff(
+		backoff.WithMaxElapsedTime(2*time.Second),
+		backoff.WithMaxInterval(10*time.Second),
+	)
 
-	return handler(util.ContextBackground(), body)
+	return backoff.Retry(func() error {
+		return handler(util.ContextBackground(), body)
+	}, opts)
 }
 
 func (m *module) openChannel() {
@@ -67,8 +67,15 @@ func (m *module) consume(queue string) <-chan amqp.Delivery {
 }
 
 func (m *module) logErrConsume(err error, d amqp.Delivery, message string) {
+	if v, ok := (err).(*custerr.CustErr); ok {
+		log.Err(err).
+			Str("code", v.Code).
+			Str("body", string(d.Body)).
+			Msg(message)
+
+		return
+	}
 	log.Err(err).
-		Str("id", d.MessageId).
 		Str("body", string(d.Body)).
 		Msg(message)
 }

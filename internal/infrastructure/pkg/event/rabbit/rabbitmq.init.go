@@ -11,12 +11,11 @@ type (
 	handlers map[string]event.Handler
 
 	module struct {
-		conn             *amqp.Connection
-		channel          *amqp.Channel
-		handlers         handlers
-		middlewares      []event.Middleware
-		errChan          chan error
-		maxRetryAttempts int
+		conn        *amqp.Connection
+		channel     *amqp.Channel
+		handlers    handlers
+		middlewares []event.Middleware
+		errChan     chan error
 	}
 
 	Opts struct {
@@ -27,9 +26,8 @@ type (
 
 func NewRabbitMQ(opts Opts) event.Consumer {
 	return &module{
-		conn:             parseConn(opts.Conn),
-		handlers:         make(handlers),
-		maxRetryAttempts: opts.MaxRetryAttempts,
+		conn:     parseConn(opts.Conn),
+		handlers: make(handlers),
 	}
 }
 
