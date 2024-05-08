@@ -35,7 +35,7 @@ jobs:
         uses: leafney/dingtalk-action@v1
         if: always()
         env:
-          DINGTALK_ACCESS_TOKEN: 012575f2b79b47fe03844bf3a8293d84b01f5d90e4f918ba63583a23675b3bbf
+          DINGTALK_ACCESS_TOKEN: ${{ secrets.WEBHOOK_DINGTALK}}
         with:
           msgtype: text
           # notify_when: 'success'
@@ -49,7 +49,7 @@ jobs:
             ${{ github.event.head_commit.message }}
 
 
-          at_mobiles: '+62-8886198345'
+          at_mobiles: '+62-8886198345,+62-8886198345'
           title: Notification Ocistok Service Notification
 
   Build-Golang-NotificationX-Nearlive:
@@ -78,7 +78,7 @@ jobs:
         uses: leafney/dingtalk-action@v1
         if: always()
         env:
-          DINGTALK_ACCESS_TOKEN: 012575f2b79b47fe03844bf3a8293d84b01f5d90e4f918ba63583a23675b3bbf
+          DINGTALK_ACCESS_TOKEN: ${{ secrets.WEBHOOK_DINGTALK}}
         with:
           msgtype: text
           # notify_when: 'success'
@@ -92,16 +92,16 @@ jobs:
             ${{ github.event.head_commit.message }}
 
 
-          at_mobiles: '+62-8886198345'
+          at_mobiles: '+62-8886198345,+62-8886198345'
           title: Notification Ocistok Service Notification
 
-  Deploy-to-Golang-Web-Service:
+  Deploy-to-notification-Production:
     runs-on: ubuntu-latest
     if: github.ref_name == 'main'
     steps:
-      # - name: Deploy to Kubernetes ack aliyun ocistok-service1
-      #   run: |
-      #     curl https://cs.console.aliyun.com/hook/trigger\?token\=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVzdGVySWQiOiJjMTc1MGY4MDA0ZmI5NGYyYzk2NGY3MTg0OGY4OWU4YzQiLCJpZCI6IjIyNjI2NyJ9.Mt-w_D1u7oQnjcDNppVw7JYZZHGWRJgfKQKuBThki5x2mabucsiOEWRsY1niefpywYMfZ3SV09dNSy09T2e5UIk-GiX_t6RldEkuu0rhJ6OtBpqraRWtA4VwekeDumJ-hdIR1QaCR8Lu7rKRJ3Tabja-YbA1Dwib7oUExtxbADM           
+      - name: Deploy to Kubernetes ack aliyun golang-notification
+        run: |
+          curl https://cs.console.aliyun.com/hook/trigger?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVzdGVySWQiOiJjMTc1MGY4MDA0ZmI5NGYyYzk2NGY3MTg0OGY4OWU4YzQiLCJpZCI6IjIzOTgyMiJ9.C_vGe2YG9-1NUSX4ZbKOUaSBqO45nDkLvs1EkeWPCxbKmPDogtNlbXOBSZ75tfHYjCFblUKZkqlmANLD3wD3U-LeS8tlrP2ydx4_ONV_c1VrfPypKMcjOrOrZ3TttXP8AO-tOAFae2l_gconaGbpeZM-WglvwuYUvClCdOY5RwA
       - name: Notify dingtalk Deploy
         uses: leafney/dingtalk-action@v1
         if: always()
@@ -120,5 +120,5 @@ jobs:
             ${{ github.event.head_commit.message }}
 
 
-          at_mobiles: '+62-8886198345'
+          at_mobiles: '+62-8886198345,+62-8886198345'
           title: Golang Ocistok Service Notification
