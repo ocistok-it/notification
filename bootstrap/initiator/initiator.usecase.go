@@ -7,6 +7,7 @@ import (
 	"github.com/ocistok-it/notification/internal/infrastructure/pkg/apicall"
 	"github.com/ocistok-it/notification/internal/infrastructure/service/dingtalk"
 	"github.com/ocistok-it/notification/internal/infrastructure/service/mail"
+	"github.com/ocistok-it/notification/internal/infrastructure/service/whatsapp"
 )
 
 func (i *Initiator) InitUsecase() *Initiator {
@@ -20,7 +21,7 @@ func (i *Initiator) InitUsecase() *Initiator {
 func (i *Initiator) newNotifyUC() usecases.NotifyUsecase {
 	cfg := i.config.Service
 
-	dt := dingtalk.New(&dingtalk.Opts{
+	ding := dingtalk.New(&dingtalk.Opts{
 		Config:  cfg.DingTalk,
 		Apicall: apicall.New(),
 	})
@@ -31,10 +32,15 @@ func (i *Initiator) newNotifyUC() usecases.NotifyUsecase {
 		Client:   i.basic.Mailer,
 	})
 
+	wa := whatsapp.New(&whatsapp.Opts{
+		QueueName:  cfg.Whatsapp.QueueName,
+		RabbitConn: i.basic.RabitClient,
+	})
+
 	opts := notify.Opts{
 		DingRepo:    i.repositories.DingRobot,
 		DefMailRepo: i.repositories.DefMailUser,
 	}
 
-	return notify.RegisterService(opts, dt, email)
+	return notify.RegisterService(opts, ding, email, wa)
 }

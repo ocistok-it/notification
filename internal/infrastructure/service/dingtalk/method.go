@@ -6,7 +6,7 @@ import (
 	"github.com/ocistok-it/notification/internal/infrastructure/enums"
 )
 
-func (s *Service) GetService() enums.ServiceName {
+func (s *Service) GetService() enums.Channel {
 	return enums.DingTalkService
 }
 

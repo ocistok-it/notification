@@ -1,8 +1,9 @@
 package enums
 
-type ServiceName string
+type Channel string
 
 const (
-	MailService     ServiceName = "mail"
-	DingTalkService ServiceName = "dingtalk"
+	MailService     Channel = "mail"
+	DingTalkService Channel = "dingtalk"
+	Whatsapp        Channel = "whatsapp"
 )

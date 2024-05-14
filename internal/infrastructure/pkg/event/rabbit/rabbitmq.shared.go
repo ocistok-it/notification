@@ -1,6 +1,7 @@
 package rabbit
 
 import (
+	"fmt"
 	"github.com/cenkalti/backoff/v4"
 	"github.com/ocistok-it/notification/internal/infrastructure/custerr"
 	"github.com/ocistok-it/notification/internal/infrastructure/pkg/event"
@@ -27,13 +28,26 @@ func (m *module) processMessage(delivery <-chan amqp.Delivery, handler event.Han
 	}
 }
 
+func (m *module) handlePanic() {
+	a := recover()
+	if a != nil {
+		fmt.Println("RECOVER", a)
+	}
+
+}
+
 func (m *module) doProcessing(body []byte, handler event.Handler) error {
 	opts := backoff.NewExponentialBackOff(
 		backoff.WithMaxElapsedTime(2*time.Second),
 		backoff.WithMaxInterval(10*time.Second),
 	)
 
-	return backoff.Retry(func() error {
+	return backoff.Retry(func() (err error) {
+		defer func() {
+			if r := recover(); r != nil {
+				err = fmt.Errorf("panic recover : %v", r)
+			}
+		}()
 		return handler(util.ContextBackground(), body)
 	}, opts)
 }
