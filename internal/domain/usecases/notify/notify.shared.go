@@ -50,3 +50,7 @@ func (m *module) initMail(ctx context.Context, metadata string) (interface{}, er
 
 	return &request, nil
 }
+
+func (m *module) initWhatsapp(ctx context.Context, metadata string) (interface{}, error) {
+	return metadata, nil
+}

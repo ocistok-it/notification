@@ -18,12 +18,22 @@ import (
 
 func (i *Initiator) InitBasic() *Initiator {
 	i.basic = &deps.Basic{
-		MgoClient: i.newMgoClient(),
-		Consumer:  i.newConsumer(),
-		Mailer:    i.newMailer(),
+		MgoClient:   i.newMgoClient(),
+		Mailer:      i.newMailer(),
+		RabitClient: i.newRabbitClient(),
 	}
 
+	i.basic.Consumer = i.newConsumer()
+
 	return i
+}
+
+func (i *Initiator) newRabbitClient() *amqp.Connection {
+	conn, err := amqp.Dial(i.config.Event.Broker)
+	if err != nil {
+		log.Fatal().Err(err).Msg("error connect to broker")
+	}
+	return conn
 }
 
 func (i *Initiator) newMailer() *gomail.Dialer {
@@ -40,15 +50,8 @@ func (i *Initiator) newMailer() *gomail.Dialer {
 }
 
 func (i *Initiator) newConsumer() event.Consumer {
-	cfg := i.config.Event.Listener
-
-	conn, err := amqp.Dial(cfg.Broker)
-	if err != nil {
-		log.Fatal().Err(err).Msg("error connect to broker")
-	}
-
 	return rabbit.NewRabbitMQ(rabbit.Opts{
-		Conn: conn,
+		Conn: i.basic.RabitClient,
 	})
 }
 
