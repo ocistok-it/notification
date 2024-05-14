@@ -7,7 +7,7 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
-func (s *Service) GetService() enums.ServiceName {
+func (s *Service) GetService() enums.Channel {
 	return enums.MailService
 }
 

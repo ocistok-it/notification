@@ -17,8 +17,8 @@ type (
 		defMailRepo repositories.DefaultMailUserRepository
 	}
 
-	notifierMap  map[enums.ServiceName]service.Service
-	initiatorMap map[enums.ServiceName]initFn
+	notifierMap  map[enums.Channel]service.Service
+	initiatorMap map[enums.Channel]initFn
 
 	initFn func(ctx context.Context, metadata string) (interface{}, error)
 
@@ -49,5 +49,6 @@ func (m *module) registerInitiator() {
 	m.initiator = initiatorMap{
 		enums.DingTalkService: m.initDingtalk,
 		enums.MailService:     m.initMail,
+		enums.Whatsapp:        m.initWhatsapp,
 	}
 }

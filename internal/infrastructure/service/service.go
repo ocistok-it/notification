@@ -8,7 +8,7 @@ import (
 type (
 	// Service encapsulates the various client.
 	Service interface {
-		GetService() enums.ServiceName
+		GetService() enums.Channel
 		Send(ctx context.Context, message interface{}) error
 	}
 )
