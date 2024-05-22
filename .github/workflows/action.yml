@@ -45,6 +45,8 @@ jobs:
             Job Status : ${{ job.status }} 
             ${{ github.actor }} created commit: ${{ github.ref_name }}
             Repository: ${{ github.repository }}
+            Github Action URL : 
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} 
             Commit message: 
             ${{ github.event.head_commit.message }}
 
@@ -88,6 +90,8 @@ jobs:
             Job Status : ${{ job.status }} 
             ${{ github.actor }} created commit: ${{ github.ref_name }}
             Repository: ${{ github.repository }}
+            Github Action URL : 
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} 
             Commit message: 
             ${{ github.event.head_commit.message }}
 
@@ -116,6 +120,8 @@ jobs:
             Job Status : ${{ job.status }} 
             created commit: ${{ github.ref_name }}
             Repository: ${{ github.repository }}
+            Github Action URL : 
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} 
             Commit message: 
             ${{ github.event.head_commit.message }}
 
